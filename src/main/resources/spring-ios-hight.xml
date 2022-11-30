@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--  wife先加载 depends-on用来控制加载顺序 当一个bean想让另一个bean在它之前加载可以使用  -->
+<!--    <bean class="beans.User" id="user" depends-on="wife"></bean>-->
+<!--    <bean class="beans.Wife" id="wife"></bean>-->
+
+    <!--  懒加载，在使用的时候进行加载，就不好在Spring容器加载的时候加载改bean，而是在使用的时候加载该bean
+      -->
+<!--    <bean class="beans.Wife" id="wife" lazy-init="true"></bean>-->
+
+    <!--  prototyped多例 每次使用逗号创建一个bean
+          single 单例
+      -->
+<!--    <bean class="beans.Person" id="person" scope="prototype"></bean>-->
+
+    <!--  使用静态工厂方法实例化bean  -->
+<!--    <bean class="beans.Person" id="person" factory-method="createPersonFactory"></bean>-->
+        <!--使用实例工厂方法-->
+<!--    <bean class="beans.PersonFactory" id="personFactory"></bean>-->
+<!--    <bean class="beans.Person" id="person"-->
+<!--          factory-bean="personFactory"-->
+<!--          factory-method="createPersonFactoryMethod">-->
+<!--    </bean>-->
+
+    <!-- 自动注入
+          1、byType根据类型进行自动匹配 当出现多个类型或者匹配到的类型则会报错
+          2、byName 根据set方法的名字去自动匹配
+          3、constructor 根据构造器去匹配
+          优先会根据名字去匹配，假如名字没有匹配到，会根据类型去匹配
+          会根据构造函数的参数进行完整的匹配注入，如果构造函数的参数与IOC容器里面必须完全匹配，否则无法注入
+          名字没有匹配到回根据类型匹配，类型假如出现多个会注入失败，不会报错
+          当根据类型匹配到多个，可以使用 1、设置某个bean为主要bean primary="true"
+            2、设置为不参与自动注入的bean： autowire-candidate="false" 不参与自动注入
+      -->
+    <!-- 声明周期回调   -->
+    <bean class="beans.Person" id="person" autowire="byType"
+          init-method="initByConfig"
+          destroy-method="destroyByConfig">
+    </bean>
+    <bean class="beans.Wife" id="wife">
+        <property name="age" value="18"></property>
+        <property name="name" value="小芳"></property>
+    </bean>
+
+    <!-- 配置第三方bean   -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="name" value="${mysql.username}"></property>
+        <property name="password" value="3158218k@"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/fruitday"></property>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+    </bean>
+
+    <context:property-placeholder location="db.properties"></context:property-placeholder>
+</beans>

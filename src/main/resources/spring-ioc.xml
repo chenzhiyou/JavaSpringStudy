@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    <bean class="beans.User" id="user" name="user6">-->
+<!--        <description>用来描述一个bean是做什么的</description>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash;  可以使用import来使用其他的配置文件  &ndash;&gt;-->
+<!--    &lt;!&ndash;  alias可以用来设置别名  &ndash;&gt;-->
+<!--    <alias name="user" alias="user2"></alias>-->
+
+    <!-- 依赖注入 基于setter方法
+         注意：对应的set方法的名字
+       -->
+    <bean class="beans.User" id="user" >
+        <property name="id" value="1"></property>
+        <property name="userName" value="哈哈哈"></property>
+        <property name="realName" value="吴彦祖"></property>
+    </bean>
+
+    <!--  基于构造函数的依赖注入
+          1、基于name属性设置构造函数
+          2、可以只要value属性
+          3、如果省略name属性一定要注意参数的顺序
+          4、如果参数顺序错乱，可以使用name，还可以使用index属性来设置参数的下标，下标从0开始
+          5、type属性
+      -->
+    <bean class="beans.User" id="user7" >
+       <constructor-arg name="id" value="2"></constructor-arg>
+        <constructor-arg name="userName" value="呵呵呵"></constructor-arg>
+        <constructor-arg name="realName" value="彭于晏"></constructor-arg>
+    </bean>
+    <!--  复杂数据类型的依赖注入  -->
+    <bean class="beans.Person" id="person">
+        <property name="id" value="1"></property>
+        <!--   设值为null     -->
+        <property name="name">
+            <null></null>
+        </property>
+        <property name="gender" value=""></property>
+        <!--  引入外部的bean  外部bean可以复用    -->
+<!--        <property name="wife" ref="wife"></property>-->
+
+        <!--   使用内部bean     -->
+        <property name="wife">
+            <bean class="beans.Wife">
+                <property name="name" value="小王"></property>
+                <property name="age" value="18"></property>
+            </bean>
+        </property>
+        <!--   list注入：如果泛型是基本数据类型，<value>
+                        如果泛型是bean，<bean>
+                  -->
+        <property name="hobbies">
+            <list>
+                <value>唱歌</value>
+                <value>跳舞</value>
+            </list>
+        </property>
+        <!--  map注入      -->
+        <property name="course">
+            <map>
+                <entry key="1" value="Java"></entry>
+                <entry key="2" value="数据库"></entry>
+            </map>
+        </property>
+    </bean>
+    <bean class="beans.Wife" id="wife">
+        <property name="name" value="小芳"></property>
+        <property name="age" value="18"></property>
+    </bean>
+</beans>
