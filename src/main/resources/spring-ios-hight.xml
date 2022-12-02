@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
     <!--  wife先加载 depends-on用来控制加载顺序 当一个bean想让另一个bean在它之前加载可以使用  -->
 <!--    <bean class="beans.User" id="user" depends-on="wife"></bean>-->
 <!--    <bean class="beans.Wife" id="wife"></bean>-->
@@ -56,5 +56,7 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
     </bean>
 
+    <context:component-scan base-package="cn.tulingxueyuan"></context:component-scan>
     <context:property-placeholder location="db.properties"></context:property-placeholder>
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 </beans>

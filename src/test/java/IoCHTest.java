@@ -1,5 +1,7 @@
 import beans.Person;
+import beans.User;
 import beans.Wife;
+import cn.tulingxueyuan.service.UserService;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -86,6 +88,12 @@ public class IoCHTest {
         System.out.println("配置第三方bean");
         DruidDataSource druid = context.getBean("dataSource", DruidDataSource.class);
         System.out.println(druid);
+    }
+
+    @Test
+    public void test08(){
+        UserService bean = context.getBean(UserService.class);
+        bean.getUser();
     }
 
 }
