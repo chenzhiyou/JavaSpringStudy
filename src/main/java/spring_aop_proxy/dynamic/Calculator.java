@@ -1,4 +1,4 @@
-package spring_aop.proxy.dynamic;
+package spring_aop_proxy.dynamic;
 
 public class Calculator implements ICalculator{
     @Override

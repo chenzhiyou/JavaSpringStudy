@@ -1,4 +1,4 @@
-package spring_aop.proxy.statically;
+package spring_aop_proxy.statically;
 import org.junit.jupiter.api.Test;
 
 

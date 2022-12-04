@@ -1,4 +1,4 @@
-package spring_aop.proxy.statically;
+package spring_aop_proxy.statically;
 
 public interface IGamePlayer {
 

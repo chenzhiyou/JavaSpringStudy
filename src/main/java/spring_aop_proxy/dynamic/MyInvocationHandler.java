@@ -1,4 +1,4 @@
-package spring_aop.proxy.dynamic;
+package spring_aop_proxy.dynamic;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

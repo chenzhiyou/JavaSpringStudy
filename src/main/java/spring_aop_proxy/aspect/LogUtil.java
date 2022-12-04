@@ -1,4 +1,4 @@
-package spring_aop.proxy.aspect;
+package spring_aop_proxy.aspect;
 
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
