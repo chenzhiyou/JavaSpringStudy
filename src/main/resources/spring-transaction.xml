@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.alibaba.com/schema/stat http://www.alibaba.com/schema/stat.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="spring_transaction"></context:component-scan>
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="username" value="${mysql.username}"></property>
+        <property name="password" value="${mysql.password}"></property>
+        <property name="url" value="${mysql.url}"></property>
+        <property name="driverClassName" value="${mysql.driverClassName}"></property>
+    </bean>
+    <context:property-placeholder location="db.properties"></context:property-placeholder>
+    <!-- 配置jdbcTemplate bean组件   -->
+    <bean class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" id="namedParameterJdbcTemplate">
+        <constructor-arg type="javax.sql.DataSource" ref="dataSource"></constructor-arg>
+    </bean>
+
+    <!-- 事务控制   -->
+    <!--  配置事务管理器的bean  -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 开启基于注解的事务控制模式，依赖tx名称空间   -->
+    
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    
+    <!-- 用于声明事务切入的所有方法   -->
+    <aop:config>
+        <aop:pointcut id="transactionCut" expression="execution(* spring_transaction.service.impl.*.*(..))"/>
+    </aop:config>
+    <!--  用来明确切点匹配到的方法哪些需要使用事务  -->
+    <tx:advice>
+        <tx:attributes>
+            <tx:method name="add*"/>
+            <tx:method name="update*"/>
+            <tx:method name="delete*"/>
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+</beans>
